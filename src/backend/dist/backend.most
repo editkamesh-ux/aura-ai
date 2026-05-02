@@ -1,0 +1,137 @@
+// Version: 1.0.0
+type ChatMessage__559859432 =
+  {
+    content : Text;
+    id : ItemId__940914916;
+    role : ChatRole__449952742;
+    timestamp : Timestamp__301639476;
+    userId : UserId__1023572875
+  };
+type ChatRole__449952742 = {#assistant; #systemRole; #user};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DayOfWeek__369614815 =
+  {#friday; #monday; #saturday; #sunday; #thursday; #tuesday; #wednesday};
+type FocusSession__771881851 =
+  {
+    duration : Nat;
+    id : ItemId__576488939;
+    sessionType : SessionType__128062136;
+    startTime : Timestamp__301639476;
+    userId : UserId__899159234
+  };
+type GoalCategory__738109827 =
+  {#career; #finance; #fitness; #health; #learning; #other; #personal};
+type Goal__523053841 =
+  {
+    var category : GoalCategory__738109827;
+    id : ItemId__213051363;
+    var linkedTaskIds : [ItemId__213051363];
+    var progressPercent : Nat;
+    var targetDate : ?Timestamp__301639476;
+    var title : Text;
+    userId : UserId__556810495
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type ItemId__213051363 = ItemId__833640393;
+type ItemId__421388828 = ItemId__833640393;
+type ItemId__576488939 = ItemId__833640393;
+type ItemId__796049918 = ItemId__833640393;
+type ItemId__833640393 = Nat;
+type ItemId__940914916 = ItemId__833640393;
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type NotificationSettings__894493440 =
+  {habitNudges : Bool; motivationalAlerts : Bool; routineReminders : Bool};
+type Preferences__922291529 =
+  {notificationSettings : NotificationSettings__894493440; theme : Text};
+type RoutineCategory__535409538 =
+  {#custom; #evening; #morning; #sleep; #work; #workout};
+type RoutineItem__723853405 =
+  {
+    var category : RoutineCategory__535409538;
+    var daysOfWeek : [DayOfWeek__369614815];
+    var endTime : Text;
+    id : ItemId__796049918;
+    var isEnabled : Bool;
+    var name : Text;
+    var startTime : Text;
+    userId : UserId__636774894
+  };
+type SessionType__128062136 =
+  {#custom; #deepWork; #longBreak; #pomodoro; #shortBreak};
+type TaskCategory__151338024 =
+  {#fitness; #health; #learning; #other; #personal; #work};
+type TaskPriority__185306992 = {#high; #low; #medium};
+type Task__218109324 =
+  {
+    var category : TaskCategory__151338024;
+    createdAt : Timestamp__301639476;
+    var dueDate : ?Timestamp__301639476;
+    id : ItemId__421388828;
+    var isCompleted : Bool;
+    var priority : TaskPriority__185306992;
+    var title : Text;
+    userId : UserId__727446440
+  };
+type Timestamp__301639476 = Int;
+type UserId__1023572875 = UserId__158757552;
+type UserId__158757552 = Principal;
+type UserId__556810495 = UserId__158757552;
+type UserId__636774894 = UserId__158757552;
+type UserId__727446440 = UserId__158757552;
+type UserId__899159234 = UserId__158757552;
+type UserId__914439993 = UserId__158757552;
+type UserProfile__446616884 =
+  {
+    var createdAt : Timestamp__301639476;
+    var displayName : Text;
+    var preferences : Preferences__922291529;
+    userId : UserId__914439993
+  };
+actor {
+  stable chatMessages :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ChatMessage__559859432]];
+      var elementIndex : Nat__490723111
+    };
+  stable focusSessions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FocusSession__771881851]];
+      var elementIndex : Nat__490723111
+    };
+  stable goals :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Goal__523053841]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextChatId : Nat;
+  stable nextFocusId : Nat;
+  stable nextGoalId : Nat;
+  stable nextRoutineId : Nat;
+  stable nextTaskId : Nat;
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__914439993, UserProfile__446616884>;
+      var size : Nat__490723111
+    };
+  stable routines :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?RoutineItem__723853405]];
+      var elementIndex : Nat__490723111
+    };
+  stable tasks :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Task__218109324]];
+      var elementIndex : Nat__490723111
+    }
+};

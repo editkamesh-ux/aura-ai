@@ -1,0 +1,239 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type UserProfilePublic = 
+ record {
+   createdAt: Timestamp;
+   displayName: text;
+   preferences: Preferences;
+   userId: UserId;
+ };
+type UserId = principal;
+type UpdateTaskInput = 
+ record {
+   category: TaskCategory;
+   dueDate: opt Timestamp;
+   id: ItemId;
+   isCompleted: bool;
+   priority: TaskPriority;
+   title: text;
+ };
+type UpdateRoutineInput = 
+ record {
+   category: RoutineCategory;
+   daysOfWeek: vec DayOfWeek;
+   endTime: text;
+   id: ItemId;
+   isEnabled: bool;
+   name: text;
+   startTime: text;
+ };
+type UpdateGoalInput = 
+ record {
+   category: GoalCategory;
+   id: ItemId;
+   linkedTaskIds: vec ItemId;
+   progressPercent: nat;
+   targetDate: opt Timestamp;
+   title: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type TaskPublic = 
+ record {
+   category: TaskCategory;
+   createdAt: Timestamp;
+   dueDate: opt Timestamp;
+   id: ItemId;
+   isCompleted: bool;
+   priority: TaskPriority;
+   title: text;
+ };
+type TaskPriority = 
+ variant {
+   high;
+   low;
+   medium;
+ };
+type TaskCategory = 
+ variant {
+   fitness;
+   health;
+   learning;
+   other;
+   personal;
+   work;
+ };
+type Stats = 
+ record {
+   currentStreak: nat;
+   goalProgressSummary: vec GoalProgressSummary;
+   tasksCompletedToday: nat;
+   totalFocusTime: nat;
+ };
+type SessionType = 
+ variant {
+   custom;
+   deepWork;
+   longBreak;
+   pomodoro;
+   shortBreak;
+ };
+type SendMessageInput = record {content: text;};
+type RoutineItemPublic = 
+ record {
+   category: RoutineCategory;
+   daysOfWeek: vec DayOfWeek;
+   endTime: text;
+   id: ItemId;
+   isEnabled: bool;
+   name: text;
+   startTime: text;
+ };
+type RoutineCategory = 
+ variant {
+   custom;
+   evening;
+   morning;
+   sleep;
+   work;
+   workout;
+ };
+type Preferences = 
+ record {
+   notificationSettings: NotificationSettings;
+   theme: text;
+ };
+type NotificationSettings = 
+ record {
+   habitNudges: bool;
+   motivationalAlerts: bool;
+   routineReminders: bool;
+ };
+type LogFocusSessionInput = 
+ record {
+   duration: nat;
+   sessionType: SessionType;
+   startTime: Timestamp;
+ };
+type ItemId = nat;
+type GoalPublic = 
+ record {
+   category: GoalCategory;
+   id: ItemId;
+   linkedTaskIds: vec ItemId;
+   progressPercent: nat;
+   targetDate: opt Timestamp;
+   title: text;
+ };
+type GoalProgressSummary = 
+ record {
+   goalId: nat;
+   progressPercent: nat;
+   title: text;
+ };
+type GoalCategory = 
+ variant {
+   career;
+   finance;
+   fitness;
+   health;
+   learning;
+   other;
+   personal;
+ };
+type FocusSessionPublic = 
+ record {
+   duration: nat;
+   id: ItemId;
+   sessionType: SessionType;
+   startTime: Timestamp;
+ };
+type DayOfWeek = 
+ variant {
+   friday;
+   monday;
+   saturday;
+   sunday;
+   thursday;
+   tuesday;
+   wednesday;
+ };
+type CreateTaskInput = 
+ record {
+   category: TaskCategory;
+   dueDate: opt Timestamp;
+   priority: TaskPriority;
+   title: text;
+ };
+type CreateRoutineInput = 
+ record {
+   category: RoutineCategory;
+   daysOfWeek: vec DayOfWeek;
+   endTime: text;
+   isEnabled: bool;
+   name: text;
+   startTime: text;
+ };
+type CreateGoalInput = 
+ record {
+   category: GoalCategory;
+   targetDate: opt Timestamp;
+   title: text;
+ };
+type ChatRole = 
+ variant {
+   assistant;
+   systemRole;
+   user;
+ };
+type ChatMessagePublic = 
+ record {
+   content: text;
+   id: ItemId;
+   role: ChatRole;
+   timestamp: Timestamp;
+ };
+service : {
+  askAI: (prompt: text) -> (text);
+  clearChatHistory: () -> (nat);
+  createGoal: (input: CreateGoalInput) -> (GoalPublic);
+  createRoutine: (input: CreateRoutineInput) -> (RoutineItemPublic);
+  createTask: (input: CreateTaskInput) -> (TaskPublic);
+  deleteGoal: (id: nat) -> (bool);
+  deleteRoutine: (id: nat) -> (bool);
+  deleteTask: (id: nat) -> (bool);
+  getChatHistory: (limit: nat) -> (vec ChatMessagePublic) query;
+  getMyProfile: () -> (opt UserProfilePublic);
+  getMyStats: () -> (Stats) query;
+  listMyFocusSessions: () -> (vec FocusSessionPublic) query;
+  listMyGoals: () -> (vec GoalPublic) query;
+  listMyRoutines: () -> (vec RoutineItemPublic) query;
+  listMyTasks: () -> (vec TaskPublic) query;
+  logFocusSession: (input: LogFocusSessionInput) -> (FocusSessionPublic);
+  sendChatMessage: (input: SendMessageInput) -> (ChatMessagePublic);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateGoal: (input: UpdateGoalInput) -> (opt GoalPublic);
+  updateRoutine: (input: UpdateRoutineInput) -> (opt RoutineItemPublic);
+  updateTask: (input: UpdateTaskInput) -> (opt TaskPublic);
+  upsertMyProfile: (displayName: text, preferences: Preferences) ->
+   (UserProfilePublic);
+}

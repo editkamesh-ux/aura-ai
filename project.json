@@ -1,0 +1,27 @@
+{
+  "overview": "AURA AI is a premium AI-powered personal assistant with a luxurious gold and black theme. It combines daily routine planning, task and goal management, AI chat guidance, focus mode, and motivational notifications into one elegant, mobile-first web app.",
+  "features": [
+    "Daily routine scheduler with smart reminders",
+    "AI chat assistant with personalized suggestions",
+    "Task & goal manager with progress tracking",
+    "Focus mode with Pomodoro and Deep Work timers",
+    "Dashboard with daily stats and streak tracking",
+    "Browser notifications for routines and motivation",
+    "Glassmorphism UI with gold glow effects and smooth animations",
+    "Offline-first local storage for all core data",
+    "Theme customization with dark gold variations",
+    "Smooth onboarding experience"
+  ],
+  "category": "productivity",
+  "tags": [
+    "ai",
+    "productivity",
+    "personal-assistant",
+    "routines",
+    "tasks",
+    "goals",
+    "focus",
+    "premium"
+  ],
+  "last_updated": "2026-05-02T07:44:35.128Z"
+}
